@@ -2,7 +2,7 @@ from uuid import UUID
 
 from sqlalchemy import UUID as PGUUID
 from sqlalchemy import text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.infra.postgres.models.base import Base
 
@@ -16,3 +16,6 @@ class Author(Base):
         server_default=text("gen_random_uuid()"),
     )
     name: Mapped[str]
+
+    authors_books: Mapped["AuthorBook"] = relationship("AuthorBook", back_populates="authors")
+    books: Mapped["Book"] = relationship("Book", secondary="authors_books", back_populates="authors")

@@ -2,7 +2,7 @@ from uuid import UUID
 
 from sqlalchemy import UUID as PGUUID
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.infra.postgres.models.base import Base
 
@@ -20,3 +20,6 @@ class AuthorBook(Base):
         ForeignKey("books.id"),
         primary_key=True,
     )
+
+    authors: Mapped["Author"] = relationship("Author", back_populates="authors_books")
+    books: Mapped["Books"] = relationship("Books", back_populates="authors_books")
