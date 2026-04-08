@@ -15,6 +15,16 @@ services:
       timeout: 5s
       retries: 10
 
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8081:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "example@example.com"
+      PGADMIN_DEFAULT_PASSWORD: "example"
+    volumes:
+      - my-pgadmin:/var/lib/pgadmin
+
   app:
     build: .
     ports:
@@ -29,3 +39,4 @@ services:
 
 volumes:
   my-pgdata:
+  my-pgadmin:
