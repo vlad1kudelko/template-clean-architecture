@@ -1,9 +1,13 @@
+import asyncio
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import pool
+from sqlalchemy.engine import Connection
+from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from src.app_config import app_config
+from src.infra.postgres.models import *  # noqa: E402, F403
 from src.infra.postgres.models.base import Base
 
 # this is the Alembic Config object, which provides
@@ -59,17 +63,25 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
+    asyncio.run(run_async_migrations())
+
+
+async def run_async_migrations() -> None:
+    connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
 
-    with connectable.connect() as connection:
+    def do_run_migrations(connection: Connection) -> None:
         context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
+
+    async with connectable.connect() as connection:
+        await connection.run_sync(do_run_migrations)
+    await connectable.dispose()
 
 
 if context.is_offline_mode():
