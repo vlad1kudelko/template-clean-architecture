@@ -1,7 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import UUID as PGUUID
-from sqlalchemy import text
+from sqlalchemy import UUID as PGUUID, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.infra.postgres.models.base import Base

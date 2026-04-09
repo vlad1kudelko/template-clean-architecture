@@ -3,6 +3,7 @@ services:
     image: postgres:17
     ports:
       - 5400:5432
+    restart: always
     environment:
       POSTGRES_USER: my_user
       POSTGRES_PASSWORD: my_pass
@@ -19,6 +20,7 @@ services:
     image: dpage/pgadmin4
     ports:
       - 8081:80
+    restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: "example@example.com"
       PGADMIN_DEFAULT_PASSWORD: "example"
