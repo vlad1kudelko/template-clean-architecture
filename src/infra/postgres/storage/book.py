@@ -2,6 +2,7 @@ from collections.abc import Sequence
 from uuid import UUID
 
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from src.infra.postgres.models.author import Author
 from src.infra.postgres.models.book import Book
@@ -19,4 +20,7 @@ class BookStorage(BaseStorage[Book]):
         await self._db.flush()
         return book
 
-    async def read_books(self) -> Sequence[Book]: ...
+    async def read_books(self) -> Sequence[Book]:
+        stmt = select(Book).options(selectinload(Book.authors))
+        result = await self._db.execute(stmt)
+        return result.scalars().all()
