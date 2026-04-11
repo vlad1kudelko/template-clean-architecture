@@ -17,6 +17,7 @@ class BookStorage(BaseStorage[Book]):
         result = await self._db.execute(stmt)
         authors = result.scalars().all()
         book = Book(title=title, genre=genre, authors=authors)
+        self._db.add(book)
         await self._db.flush()
         return book
 
