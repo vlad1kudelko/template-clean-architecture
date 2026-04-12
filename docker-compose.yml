@@ -38,6 +38,8 @@ services:
       POSTGRES_USER: my_user
       POSTGRES_PASSWORD: my_pass
       POSTGRES_DB: my_db
+    command: >
+      sh -c "uv run alembic upgrade head && uv run uvicorn src.main:app --host 0.0.0.0 --port 8000"
 
 volumes:
   my-pgdata:
