@@ -11,5 +11,4 @@ class Author(Base, MixinId):
 
     name: Mapped[str]
 
-    authors_books: Mapped[list["AuthorBook"]] = relationship("AuthorBook", back_populates="authors")
     books: Mapped[list["Book"]] = relationship("Book", secondary="authors_books", back_populates="authors")

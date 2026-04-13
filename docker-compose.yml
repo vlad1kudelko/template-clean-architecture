@@ -45,6 +45,13 @@ services:
     build: .
     environment:
       APP_URL: http://app:8000
+      #
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      #
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: my_pass
+      POSTGRES_DB: my_db
     command: >
       uv run pytest tests/ -v
 

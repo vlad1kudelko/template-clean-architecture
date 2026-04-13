@@ -19,6 +19,3 @@ class AuthorBook(Base):
         ForeignKey("books.id"),
         primary_key=True,
     )
-
-    authors: Mapped["Author"] = relationship("Author", back_populates="authors_books")
-    books: Mapped["Books"] = relationship("Books", back_populates="authors_books")
