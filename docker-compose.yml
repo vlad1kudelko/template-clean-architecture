@@ -41,6 +41,13 @@ services:
     command: >
       sh -c "uv run alembic upgrade head && uv run uvicorn src.main:app --host 0.0.0.0 --port 8000"
 
+  tests:
+    build: .
+    environment:
+      APP_URL: http://app:8000
+    command: >
+      uv run pytest tests/ -v
+
 volumes:
   my-pgdata:
   my-pgadmin:
